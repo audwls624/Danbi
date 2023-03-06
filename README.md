@@ -2,7 +2,7 @@
 
 ## Python
 
-* Version required 3.8
+* Version required 3.9
 
 ## Installation
 
@@ -29,6 +29,5 @@ export JWT_ALGORITHM={jwt_algorithm}
 - Docker container에 MYSQL 올려서 사용
 - MYSQL version 8.0
 ```bash
-# M1 mac의 경우 --platform linux/amd64 옵션 추가
 docker run -v {VOLUME PATH}:/var/lib/mysql -p {CONTAINER PORT}:3306 --name danbi -e MYSQL_ROOT_PASSWORD={PASSWORD} -d mysql:8.0 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
