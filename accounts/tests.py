@@ -5,7 +5,7 @@ from rest_framework.test import APIClient, APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
-from .constants import RESPONSE_MESSAGE_REGISTER_SUCCESS, RESPONSE_MESSAGE_LOGIN_SUCCESS, RESPONSE_MESSAGE_LOGOUT_SUCCESS
+from common.constants import RESPONSE_MESSAGE_REGISTER_SUCCESS, RESPONSE_MESSAGE_LOGIN_SUCCESS, RESPONSE_MESSAGE_LOGOUT_SUCCESS
 
 
 class RegisterTestCase(APITestCase):
@@ -77,6 +77,7 @@ class LogoutTestCase(APITestCase):
             email='testuser@example.com',
             password='passworD12$'
         )
+        self.client.force_authenticate(user=self.user)
 
     def test_logout_with_valid_token(self):
         login_data = {'email': 'testuser@example.com', 'password': 'passworD12$'}

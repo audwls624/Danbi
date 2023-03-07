@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate
 
 class RegisterView(APIView):
     def post(self, request):
+        print(request.data)
         serializer = UserSerializer(data=request.data)
         result = dict()
         if not serializer.is_valid():
@@ -54,8 +55,8 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
-
-    def get(self, request):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
         try:
             refresh_token = request.COOKIES.get('refresh_token')
             token = RefreshToken(refresh_token)

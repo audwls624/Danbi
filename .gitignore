@@ -8,6 +8,7 @@ pyvenv.cfg
 .venv
 .python-version
 .cenv
+.env
 environment.yml
 
 # Pycharm project files
