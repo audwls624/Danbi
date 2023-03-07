@@ -70,19 +70,6 @@ class LoginTestCase(APITestCase):
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    # def test_logout_view(self):
-    #     user_data = {'email': 'testuser@example.com', 'password': 'testpass123'}
-    #     user = User.objects.create_user(**user_data)
-    #
-    #     access_token = self.get_access_token(user_data)
-    #     self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
-    #
-    #     response = self.client.get(reverse('logout'))
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
-    #     self.assertIsNone(response.cookies.get('access_token'))
-    #     self.assertIsNone(response.cookies.get('refresh_token'))
-
 
 class LogoutTestCase(APITestCase):
     def setUp(self):
@@ -91,25 +78,23 @@ class LogoutTestCase(APITestCase):
             password='passworD12$'
         )
 
-    # def test_logout_with_valid_token(self):
-    #     login_data = {'email': 'testuser@example.com', 'password': 'passworD12$'}
-    #     login_response = self.client.post(reverse('accounts:login_view'), data=login_data)
-    #     access_token = login_response.data['token']['access_token']
-    #     refresh_token = login_response.data['token']['refresh_token']
-    #
-    #     self.client.cookies['access_token'] = access_token
-    #     self.client.cookies['refresh_token'] = refresh_token
-    #     headers = {'Authorization': f'Bearer {access_token}'}
-    #     response = self.client.get(reverse('accounts:logout_view'), headers=headers)
-    #
-    #     self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
-    #     print(response.cookies.get('access_token'))
-    #     self.assertIsNone(response.cookies.get('access_token'))
-    #     self.assertIsNone(response.cookies.get('refresh_token'))
-    #
-    # def test_logout_with_invalid_token(self):
-    #     headers = {'Authorization': f'Bearer invalid-token'}
-    #     response = self.client.get(reverse('accounts:logout_view'), headers=headers)
-    #     self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    def test_logout_with_valid_token(self):
+        login_data = {'email': 'testuser@example.com', 'password': 'passworD12$'}
+        login_response = self.client.post(reverse('accounts:login_view'), data=login_data)
+        access_token = login_response.data['token']['access_token']
+        refresh_token = login_response.data['token']['refresh_token']
+
+        self.client.cookies['access_token'] = access_token
+        self.client.cookies['refresh_token'] = refresh_token
+        response = self.client.get(reverse('accounts:logout_view'))
+
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual(str(response.cookies.get('access_token').value), '')
+        self.assertEqual(str(response.cookies.get('refresh_token').value), '')
+
+    def test_logout_with_invalid_token(self):
+        self.client.cookies['refresh_token'] = 'invalid-token'
+        response = self.client.get(reverse('accounts:logout_view'))
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
