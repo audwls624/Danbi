@@ -11,7 +11,6 @@ from django.contrib.auth import authenticate
 
 class RegisterView(APIView):
     def post(self, request):
-        print(request.data)
         serializer = UserSerializer(data=request.data)
         result = dict()
         if not serializer.is_valid():

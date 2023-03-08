@@ -1,3 +1,6 @@
+# DATE STRING
+DATE_STRING_YYYYMMDD = '%Y-%m-%d'
+
 # REGEX
 PASSWORD_REGEX = r'^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()])[\w\d!@#$%^&*()]{8,}$'
 
